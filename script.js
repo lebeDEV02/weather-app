@@ -12,6 +12,7 @@ const inputValue = document.querySelector('.app__search-input')
 const btn = document.querySelector('.app__search-button');
 const favouriteCity = document.querySelector('.weather__favourite');
 const addedLocations = document.querySelector('.app__locations-list');
+const weatherDigitsValue = document.querySelector('.weather__value');
 let counterForLocalStorage = 0;
 tabsSection.addEventListener('click', (e) => {
 	if (e.target.classList.contains('app__weather-tab')) {
@@ -29,10 +30,8 @@ tabsSection.addEventListener('click', (e) => {
 });
 
 // Weather API 
-
-
-let weatherDigitsValue = document.querySelector('.weather__value');
-btn.addEventListener('click', () => {
+btn.addEventListener('click', (e) => {
+	e.preventDefault();
 	fetch('http://api.openweathermap.org/data/2.5/weather?q=' + inputValue.value + '&appid=f660a2fb1e4bad108d6160b7f58c555f')
 		.then(response => response.json())
 		.then(data => {
@@ -51,19 +50,36 @@ btn.addEventListener('click', () => {
 			else {
 				alert("Try again! Probably you made a mistake");
 				inputValue.value = "";
+				localStorage.removeItem('inputStorage');
 			}
-		})
-	// .catch(err => {
-	// 	alert(err);
-	// });
+		});
 })
-favouriteCity.addEventListener('click', () => {
-	const weatherCity = document.querySelector('.app__weather-city');
-	addedLocations.insertAdjacentHTML('beforeend', `<p>${weatherCity.textContent}</p>`);
-	counterForLocalStorage++;
+inputValue.value = localStorage.getItem('inputStorage');
+inputValue.addEventListener('input', () => {
+	localStorage.setItem('inputStorage', inputValue.value);
+})
+// Trying to fetch data 
+document.addEventListener('DOMContentLoaded', () => {
 
-});
-for (let i = 0; i < localStorage.length; i++) {
-	let key = localStorage.key(i);
-	addedLocations.insertAdjacentHTML('beforeend', `<p>${localStorage.getItem(key)}</p>`);
-}
+	fetch('http://api.openweathermap.org/data/2.5/weather?q=' + inputValue.value + '&appid=f660a2fb1e4bad108d6160b7f58c555f')
+		.then(response => response.json())
+		.then(data => {
+			if (data.message !== "city not found" || data.message !== "Nothing to geocode") {
+				console.log(data);
+				weatherCityArray.forEach(item => {
+					item.textContent = `${data.name}`
+				})
+				weatherDigitsValue.textContent = `${Math.round(data.main.temp) - 273}°C`
+				weatherInformation.textContent = `Temperature: ${Math.round(data.main.temp - 273)}°C`;
+				weatherFeelsLike.textContent = `Feels Like: ${Math.round(data.main.feels_like - 273)}°C`;
+				weather.textContent = `Weather: ${data.weather[0].main}`;
+				weatherSunrise.textContent = `Sunrise: ${Math.floor((data.sys.sunrise / (1000 * 60 * 60)) % 24)}:${Math.floor((data.sys.sunrise / (1000 * 60)) % 60)} `;
+				weatherSunset.textContent = `Sunset: ${Math.floor((data.sys.sunset / (1000 * 60 * 60)) % 24)}:${Math.floor((data.sys.sunset / (1000 * 60)) % 60)} `;
+			}
+			else {
+				alert("Try again! Probably you made a mistake");
+				inputValue.value = "";
+				localStorage.removeItem('inputStorage');
+			}
+		});
+})
