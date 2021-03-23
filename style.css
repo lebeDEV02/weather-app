@@ -200,3 +200,18 @@ input, button, textarea, select {
 .app__weather-forecast .app__weather-city {
 	padding-left: 15px;
 }
+
+.app__favourite-city {
+	cursor: pointer;
+	position: relative;
+}
+
+.app__favourite-icon {
+	content: '';
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	right: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+}
