@@ -89,7 +89,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
 		if (!localStorage.hasOwnProperty(key) || localStorage.key === "inputStorage") {
 			continue; // пропустит такие ключи, как "setItem", "getItem" и так далее
 		} else {
-			set.add(localStorage.getItem(key))
+			if (key !== "inputStorage") {
+				set.add(localStorage.getItem(key))
+			}
 		}
 	}
 	for (let value of set) {
@@ -133,14 +135,11 @@ addedLocations.addEventListener('click', (e) => {
 			});
 	}
 	if (e.target.classList.contains('app__favourite-icon')) {
-		for (let key in localStorage) {
-			if (!localStorage.hasOwnProperty(key)) {
-				continue; // пропустит такие ключи, как "setItem", "getItem" и так далее
-			}
-			if (key !== "inputStorage" && localStorage.getItem(key) === e.target.parentElement.textContent.trim()) {
+		for (let i = 0; i < localStorage.length; i++) {
+			let key = localStorage.key(i);
+			if (localStorage.getItem(key) === e.target.parentElement.textContent.trim() && key !== "inputStorage") {
 				localStorage.removeItem(key);
-				set.delete(key);
-				alert(1);
+				console.log(e.target.parentElement.remove());
 			}
 		}
 	}
