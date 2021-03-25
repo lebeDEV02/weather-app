@@ -17,6 +17,11 @@ const weatherDigitsValue = document.querySelector('.weather__value');
 const weatherIcon = document.querySelector('.weather__icon');
 const weeklyForecast = document.querySelector('.app__weather-weekly')
 const weeklyForecastDays = document.querySelectorAll('.app__weather-day');
+const dayOfWeekArray = document.querySelectorAll('.weather-day__date');
+const tempreratureOfDayOfWeek = document.querySelectorAll('.weather-day__temperature')
+const feelsLikeTemperatureOfDayOfWeek = document.querySelectorAll('.weather-day__feelslike')
+const weatherTypeArray = document.querySelectorAll('.weather-day__typeofweather')
+const weatherImagesArray = document.querySelectorAll('.weather-day__img');
 let counterForLocalStorage = 0;
 let set = new Set();
 tabsSection.addEventListener('click', (e) => {
@@ -44,9 +49,18 @@ btn.addEventListener('click', (e) => {
 				.then(response => response.json())
 				.then(data => {
 					console.log(data.daily);
-					// for (let i = 0; i < data.daily.length; i++) {
-					// 	weeklyForecastDays[i].textContent = `${data.daily[i].clouds}`
-					// }
+					for (let i = 0; i < data.daily.length; i++) {
+						dayOfWeekArray[i].textContent = `${new Date(data.daily[i].dt * 1000).toDateString()}`;
+						tempreratureOfDayOfWeek[i].textContent = `Temperature: ${Math.round(data.daily[i].temp.eve - 273)}°C`
+						feelsLikeTemperatureOfDayOfWeek[i].textContent = `Feels like: ${Math.round(data.daily[i].feels_like.eve - 273)}°C`
+						weatherTypeArray[i].textContent = `${data.daily[i].weather[0].main}`
+						if (data.daily[i].weather[0].main === "Clouds" || data.daily[i].weather[0].main === "Clear") {
+							weatherImagesArray[i].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6m0-2C9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96C18.67 6.59 15.64 4 12 4z"/></svg>`
+						}
+						if (data.daily[i].weather[0].main === "Snow") {
+							weatherImagesArray[i].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M22 11h-4.17l3.24-3.24-1.41-1.42L15 11h-2V9l4.66-4.66-1.42-1.41L13 6.17V2h-2v4.17L7.76 2.93 6.34 4.34 11 9v2H9L4.34 6.34 2.93 7.76 6.17 11H2v2h4.17l-3.24 3.24 1.41 1.42L9 13h2v2l-4.66 4.66 1.42 1.41L11 17.83V22h2v-4.17l3.24 3.24 1.42-1.41L13 15v-2h2l4.66 4.66 1.41-1.42L17.83 13H22v-2z"/></svg>`
+						}
+					}
 				})
 			console.log(data);
 			if (data.message !== "city not found") {
@@ -58,7 +72,7 @@ btn.addEventListener('click', (e) => {
 				weatherFeelsLike.textContent = `Feels Like: ${Math.round(data.main.feels_like - 273)}°C`;
 				weather.textContent = `Weather: ${data.weather[0].main}`;
 				weatherSunrise.textContent = `Sunrise: ${Math.floor((data.sys.sunrise / (60 * 60)) % 24)}:${Math.floor((data.sys.sunrise / (60)) % 60)} `;
-				weatherSunset.textContent = `Sunset: ${Math.floor((data.sys.sunset / (1000 * 60 * 60)) % 24)}:${Math.floor((data.sys.sunset / (1000 * 60)) % 60)} `;
+				weatherSunset.textContent = `Sunset: ${Math.floor((data.sys.sunset / (60 * 60)) % 24)}:${Math.floor((data.sys.sunset / (60)) % 60)} `;
 				if (data.weather[0].main === "Clouds" || data.weather[0].main === "Clear") {
 					weatherIcon.innerHTML = `<svg width="100" height="100" viewBox="0 0 78 59" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<rect width="78" height="59" fill="url(#pattern0)"/>
@@ -106,6 +120,23 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	fetch('http://api.openweathermap.org/data/2.5/weather?q=' + inputValue.value + '&appid=f660a2fb1e4bad108d6160b7f58c555f')
 		.then(response => response.json())
 		.then(data => {
+			fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + data.coord.lat + '&lon=' + data.coord.lon + '&exclude=minutely, hourly&appid=f660a2fb1e4bad108d6160b7f58c555f')
+				.then(response => response.json())
+				.then(data => {
+					console.log(data.daily);
+					for (let i = 0; i < data.daily.length; i++) {
+						dayOfWeekArray[i].textContent = `${new Date(data.daily[i].dt * 1000).toDateString()}`;
+						tempreratureOfDayOfWeek[i].textContent = `Temperature: ${Math.round(data.daily[i].temp.eve - 273)}°C`
+						feelsLikeTemperatureOfDayOfWeek[i].textContent = `Feels like: ${Math.round(data.daily[i].feels_like.eve - 273)}°C`
+						weatherTypeArray[i].textContent = `${data.daily[i].weather[0].main}`
+						if (data.daily[i].weather[0].main === "Clouds" || data.daily[i].weather[0].main === "Clear") {
+							weatherImagesArray[i].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6m0-2C9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96C18.67 6.59 15.64 4 12 4z"/></svg>`
+						}
+						if (data.daily[i].weather[0].main === "Snow") {
+							weatherImagesArray[i].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M22 11h-4.17l3.24-3.24-1.41-1.42L15 11h-2V9l4.66-4.66-1.42-1.41L13 6.17V2h-2v4.17L7.76 2.93 6.34 4.34 11 9v2H9L4.34 6.34 2.93 7.76 6.17 11H2v2h4.17l-3.24 3.24 1.41 1.42L9 13h2v2l-4.66 4.66 1.42 1.41L11 17.83V22h2v-4.17l3.24 3.24 1.42-1.41L13 15v-2h2l4.66 4.66 1.41-1.42L17.83 13H22v-2z"/></svg>`
+						}
+					}
+				})
 			if (data.message !== "city not found" || data.message !== "Nothing to geocode") {
 				weatherCityArray.forEach(item => {
 					item.textContent = `${data.name}`
@@ -115,7 +146,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 				weatherFeelsLike.textContent = `Feels Like: ${Math.round(data.main.feels_like - 273)}°C`;
 				weather.textContent = `Weather: ${data.weather[0].main}`;
 				weatherSunrise.textContent = `Sunrise: ${Math.floor((data.sys.sunrise / (60 * 60)) % 24)}:${Math.floor((data.sys.sunrise / (60)) % 60)} `;
-				weatherSunset.textContent = `Sunset: ${Math.floor((data.sys.sunset / (1000 * 60 * 60)) % 24)}:${Math.floor((data.sys.sunset / (1000 * 60)) % 60)} `;
+				weatherSunset.textContent = `Sunset: ${Math.floor((data.sys.sunset / (60 * 60)) % 24)}:${Math.floor((data.sys.sunset / (60)) % 60)} `;
 				if (data.weather[0].main === "Clouds" || data.weather[0].main === "Clear") {
 					weatherIcon.innerHTML = `<svg width="100" height="100" viewBox="0 0 78 59" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<rect width="78" height="59" fill="url(#pattern0)"/>
@@ -194,12 +225,29 @@ addedLocations.addEventListener('click', (e) => {
 				weatherCityArray.forEach(item => {
 					item.textContent = `${data.name}`
 				})
+				fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + data.coord.lat + '&lon=' + data.coord.lon + '&exclude=minutely, hourly&appid=f660a2fb1e4bad108d6160b7f58c555f')
+					.then(response => response.json())
+					.then(data => {
+						console.log(data.daily);
+						for (let i = 0; i < data.daily.length; i++) {
+							dayOfWeekArray[i].textContent = `${new Date(data.daily[i].dt * 1000).toDateString()}`;
+							tempreratureOfDayOfWeek[i].textContent = `Temperature: ${Math.round(data.daily[i].temp.eve - 273)}°C`
+							feelsLikeTemperatureOfDayOfWeek[i].textContent = `Feels like: ${Math.round(data.daily[i].feels_like.eve - 273)}°C`
+							weatherTypeArray[i].textContent = `${data.daily[i].weather[0].main}`
+							if (data.daily[i].weather[0].main === "Clouds" || data.daily[i].weather[0].main === "Clear") {
+								weatherImagesArray[i].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6m0-2C9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96C18.67 6.59 15.64 4 12 4z"/></svg>`
+							}
+							if (data.daily[i].weather[0].main === "Snow") {
+								weatherImagesArray[i].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M22 11h-4.17l3.24-3.24-1.41-1.42L15 11h-2V9l4.66-4.66-1.42-1.41L13 6.17V2h-2v4.17L7.76 2.93 6.34 4.34 11 9v2H9L4.34 6.34 2.93 7.76 6.17 11H2v2h4.17l-3.24 3.24 1.41 1.42L9 13h2v2l-4.66 4.66 1.42 1.41L11 17.83V22h2v-4.17l3.24 3.24 1.42-1.41L13 15v-2h2l4.66 4.66 1.41-1.42L17.83 13H22v-2z"/></svg>`
+							}
+						}
+					})
 				weatherDigitsValue.textContent = `${Math.round(data.main.temp) - 273}°C`
 				weatherInformation.textContent = `Temperature: ${Math.round(data.main.temp - 273)}°C`;
 				weatherFeelsLike.textContent = `Feels Like: ${Math.round(data.main.feels_like - 273)}°C`;
 				weather.textContent = `Weather: ${data.weather[0].main}`;
 				weatherSunrise.textContent = `Sunrise: ${Math.floor((data.sys.sunrise / (60 * 60)) % 24)}:${Math.floor((data.sys.sunrise / (60)) % 60)} `;
-				weatherSunset.textContent = `Sunset: ${Math.floor((data.sys.sunset / (1000 * 60 * 60)) % 24)}:${Math.floor((data.sys.sunset / (1000 * 60)) % 60)} `;
+				weatherSunset.textContent = `Sunset: ${Math.floor((data.sys.sunset / (60 * 60)) % 24)}:${Math.floor((data.sys.sunset / (60)) % 60)} `;
 				if (data.weather[0].main === "Clouds" || data.weather[0].main === "Clear") {
 					weatherIcon.innerHTML = `<svg width="100" height="100" viewBox="0 0 78 59" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<rect width="78" height="59" fill="url(#pattern0)"/>
