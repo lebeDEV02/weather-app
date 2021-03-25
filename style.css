@@ -192,6 +192,8 @@ input, button, textarea, select {
 
 .app__locations-list {
 	padding: 40px 0 0 20px;
+	height: 500px;
+	overflow: auto;
 }
 
 .app__locations-list p+p {
@@ -217,32 +219,43 @@ input, button, textarea, select {
 	transform: translateY(-50%);
 }
 
-.weather-day {
+.weather-day, .weather-hour {
 	border: 1px solid #000;
 	margin: 0 20px;
 	padding: 5px;
 	margin-bottom: 10px;
 }
 
-.weather-day__date {
+.weather-day__date, .weather-hour__date {
 	margin-bottom: 40px;
 }
 
-.weather-day__bottom {
+.weather-day__bottom, .weather-hour__bottom {
 	display: flex;
 	justify-content: space-between;
 }
 
-.weather-day__digits {}
-
-.weather-day__temperature {}
-
-.weather-day__feelslike {}
-
-.weather-day__information {
+.weather-day__information, .weather-hour__information {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
 }
 
-.weather-day__typeofweather {}
+.app__weather-forecast-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.app__weather-more {
+	margin-right: 20px;
+}
+
+.app__weather-hide {
+	display: none;
+}
+
+.weather-hour__top {
+	display: flex;
+	justify-content: space-between;
+}
