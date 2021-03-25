@@ -181,7 +181,8 @@ input, button, textarea, select {
 .app__weather-top--active {
 	display: flex;
 	flex-direction: column;
-	min-height: 600px;
+	height: 550px;
+	overflow: auto;
 }
 
 .app__locations-added {
@@ -215,3 +216,33 @@ input, button, textarea, select {
 	top: 50%;
 	transform: translateY(-50%);
 }
+
+.weather-day {
+	border: 1px solid #000;
+	margin: 0 20px;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+
+.weather-day__date {
+	margin-bottom: 40px;
+}
+
+.weather-day__bottom {
+	display: flex;
+	justify-content: space-between;
+}
+
+.weather-day__digits {}
+
+.weather-day__temperature {}
+
+.weather-day__feelslike {}
+
+.weather-day__information {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+.weather-day__typeofweather {}
