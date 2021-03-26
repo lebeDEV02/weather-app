@@ -121,18 +121,13 @@ btn.addEventListener('click', (e) => {
 			else {
 				alert("Try again! Probably you made a mistake");
 				inputValue.value = "";
-				localStorage.removeItem('inputStorage');
 			}
 		});
-})
-inputValue.value = localStorage.getItem('inputStorage');
-inputValue.addEventListener('input', () => {
-	localStorage.setItem('inputStorage', inputValue.value);
 })
 // Trying to fetch data 
 document.addEventListener('DOMContentLoaded', (e) => {
 	e.preventDefault();
-	fetch('http://api.openweathermap.org/data/2.5/weather?q=' + inputValue.value + '&appid=f660a2fb1e4bad108d6160b7f58c555f')
+	fetch('http://api.openweathermap.org/data/2.5/weather?q=' + localStorage.getItem('inputStorage') + '&appid=f660a2fb1e4bad108d6160b7f58c555f')
 		.then(response => response.json())
 		.then(data => {
 			fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + data.coord.lat + '&lon=' + data.coord.lon + '&exclude=minutely, hourly&appid=f660a2fb1e4bad108d6160b7f58c555f')
@@ -240,6 +235,8 @@ favouriteCity.addEventListener('click', () => {
 
 // Отправка на сервер запроса по клику на любимый город + тут же попытка реализовать удаление любимого города
 addedLocations.addEventListener('click', (e) => {
+	localStorage.removeItem('inputStorage');
+	localStorage.setItem('inputStorage', e.target.textContent.trim());
 	if (e.target.classList.contains('app__favourite-city')) {
 		e.preventDefault();
 		fetch('http://api.openweathermap.org/data/2.5/weather?q=' + e.target.textContent.trim() + '&appid=f660a2fb1e4bad108d6160b7f58c555f')
@@ -330,5 +327,11 @@ inputForHourlyInformation.addEventListener('click', () => {
 	} else {
 		weeklyForecast.classList.toggle('app__weather-hide');
 		hourlyForecast.classList.toggle('app__weather-hide');
+	}
+})
+// localStorage for last selected city
+btn.addEventListener('click', () => {
+	if (inputValue.value) {
+		localStorage.setItem('inputStorage', inputValue.value);
 	}
 })
