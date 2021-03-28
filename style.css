@@ -112,7 +112,7 @@ input, button, textarea, select {
 .weather__info {
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 20px;
+	margin: 40px 0px 20px 0px;
 }
 
 .app__locations {
@@ -121,6 +121,10 @@ input, button, textarea, select {
 
 .weather__info .app__weather-city {
 	padding: 0 0 0 12px;
+}
+
+.app__weather-city--details {
+	padding: 50px 0;
 }
 
 .weather__favourite {
@@ -172,6 +176,10 @@ input, button, textarea, select {
 
 .app__weather-information {
 	margin-bottom: 30px;
+}
+
+.app__weather-information p+p {
+	margin-top: 20px;
 }
 
 .app__weather-top {
@@ -231,6 +239,11 @@ input, button, textarea, select {
 }
 
 .weather-day__bottom, .weather-hour__bottom {
+	display: flex;
+	justify-content: space-between;
+}
+
+.weather-day__top, .weather-hour__top {
 	display: flex;
 	justify-content: space-between;
 }
