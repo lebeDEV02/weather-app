@@ -30,6 +30,8 @@ const showAdditionalInfo = (lon, lat) => {
 		.then(response => response.json())
 		.then(data => {
 			const { hourly, daily } = data;
+			hourlyForecast.innerHTML = ``;
+			dailyForecast.innerHTML = ``;
 			showWeatherHourly(hourly);
 			showWeatherDaily(daily);
 		})
