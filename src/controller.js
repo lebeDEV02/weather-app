@@ -1,4 +1,4 @@
-import { infoTabs, tabsSection, allTabs, weatherFeelsLike, weatherCityDetails, weatherInformation, weatherCity, weather, weatherSunrise, weatherSunset, weatherCityFavourite, inputValue, btn, favouriteCity, addedLocations, weatherDigitsValue, weatherIcon, dailyForecast, hourlyForecast, weatherSwitcher, set } from './UiElements.js';
+import { infoTabs, tabsSection, allTabs, weatherCityForecast, weatherFeelsLike, weatherCityDetails, weatherInformation, weatherCity, weather, weatherSunrise, weatherSunset, weatherCityFavourite, inputValue, btn, favouriteCity, addedLocations, weatherDigitsValue, weatherIcon, dailyForecast, hourlyForecast, weatherSwitcher, set } from './UiElements.js';
 //Functions
 export const mainInfo = (requestTarget) => {
 	fetch('http://api.openweathermap.org/data/2.5/weather?q=' + requestTarget + '&appid=f660a2fb1e4bad108d6160b7f58c555f')
@@ -10,6 +10,7 @@ export const mainInfo = (requestTarget) => {
 			weatherIcon.src = `images/${description}.svg`;
 			weatherCity.textContent = name;
 			weatherCityDetails.textContent = name;
+			weatherCityForecast.textContent = name;
 			weatherInformation.textContent = `Temperature: ${returnTemperature(temp)}`;
 			weatherFeelsLike.textContent = `Feels like: ${returnTemperature(feels_like)}`;
 			weather.textContent = `Weather: ${description}`;

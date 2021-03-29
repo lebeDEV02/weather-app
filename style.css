@@ -212,6 +212,10 @@ input, button, textarea, select {
 	padding-left: 15px;
 }
 
+.app__weather-forecast-top {
+	padding: 20px 15px;
+}
+
 .app__favourite-city {
 	cursor: pointer;
 	position: relative;

@@ -9,6 +9,7 @@ export const weatherSunset = document.querySelector('.weather-information__sunse
 export const weatherCity = document.querySelector('.app__weather-city');
 export const weatherCityDetails = document.querySelector('.app__weather-city--details');
 export const weatherCityFavourite = document.querySelector('.app__weather-city--favourite');
+export const weatherCityForecast = document.querySelector('.app__weather-city--forecast');
 export const inputValue = document.querySelector('.app__search-input')
 export const btn = document.querySelector('.app__search-button');
 export const favouriteCity = document.querySelector('.weather__favourite');
