@@ -1,4 +1,4 @@
-import { infoTabs, tabsSection, allTabs, weatherCityForecast, weatherFeelsLike, weatherCityDetails, weatherInformation, weatherCity, weather, weatherSunrise, weatherSunset, weatherCityFavourite, inputValue, btn, favouriteCity, addedLocations, weatherDigitsValue, weatherIcon, dailyForecast, hourlyForecast, weatherSwitcher, set } from './UiElements.js';
+import { inputValue, weatherCityForecast, weatherFeelsLike, weatherCityDetails, weatherInformation, weatherCity, weather, weatherSunrise, weatherSunset, weatherDigitsValue, weatherIcon, dailyForecast, hourlyForecast } from './UiElements.js';
 //Functions
 export const mainInfo = (requestTarget) => {
 	fetch('http://api.openweathermap.org/data/2.5/weather?q=' + requestTarget + '&appid=f660a2fb1e4bad108d6160b7f58c555f')
@@ -17,7 +17,13 @@ export const mainInfo = (requestTarget) => {
 			weatherSunrise.textContent = `Sunrise: ${returnSunInfo(sunrise)}`;
 			weatherSunset.textContent = `Sunset: ${returnSunInfo(sunset)}`;
 			showAdditionalInfo(lon, lat);
-		});
+		})
+		.catch(err => {
+			if (inputValue.value !== "") {
+				alert('Error!');
+				throw new Error(err);
+			}
+		})
 }
 const returnTemperature = (temp) => {
 	return `${Math.round(temp - 273)}°`
